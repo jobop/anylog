@@ -1,0 +1,9 @@
+<a href="/menu.html">go to menu</a>     
+<br/>
+可操作列表如下(大家自己根据类名理解操作的含义哈):<br/><br/><br/><br/><br/>
+#foreach($emp in $!{descriptors})
+
+		<a href="/operate.html?pid=$!{pid}&operate=$!{emp.class.name}">$!{emp.class.name}</a>
+       
+         <br/><br/><br/>
+#end

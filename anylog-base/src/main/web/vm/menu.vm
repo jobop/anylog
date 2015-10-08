@@ -1,0 +1,7 @@
+本机所有java虚拟机列表如下:<br/><br/><br/><br/><br/>
+#foreach($emp in $!{wrappers})
+
+		<a href="/vm.html?pid=$!{emp.id}"> PID：$!{emp.id} 执行路径：$!{emp.displayName}</a>                  #if($!{emp.connected})<a href="/close.html?pid=$!{emp.id}"><font color=red>restore the vm</font></a>   #end
+       
+         <br/><br/><br/>
+#end

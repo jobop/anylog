@@ -1,0 +1,51 @@
+<assembly xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/assembly-1.0.0.xsd">
+	<id>package</id>
+	<formats>
+		<format>dir</format>
+	</formats>
+	<includeBaseDirectory>true</includeBaseDirectory>
+	<fileSets>
+		<fileSet>
+			<directory>target/classes</directory>
+			<includes>
+				<include>*.properties</include>
+			</includes>
+			<outputDirectory>/conf</outputDirectory>
+		</fileSet>
+
+		<fileSet>
+			<directory>target/classes</directory>
+			<includes>
+				<include>*.sh</include>
+				<include>*.bat</include>
+			</includes>
+			<outputDirectory>/</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>lib</directory>
+			<includes>
+				<include>${java-tools-jar}</include>
+			</includes>
+			<outputDirectory>/lib</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>providers</directory>
+			<outputDirectory>/providers</outputDirectory>
+		</fileSet>		
+		<fileSet>
+			<directory>src/main/web</directory>
+			<outputDirectory>/web</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>logs</directory>
+			<outputDirectory>/logs</outputDirectory>
+		</fileSet>
+	</fileSets>
+	<dependencySets>
+		<dependencySet>
+			<scope>runtime</scope>
+			<outputDirectory>/lib</outputDirectory>
+		</dependencySet>
+	</dependencySets>
+</assembly>

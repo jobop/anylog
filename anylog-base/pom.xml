@@ -1,0 +1,200 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.github.jobop</groupId>
+	<artifactId>anylog-base</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>anylog-base</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<jetty.version>7.6.11.v20130520</jetty.version>
+		<dist.dir>../dist</dist.dir>
+	</properties>
+	<profiles>
+		<profile>
+			<!-- 本地环境 -->
+			<id>windows</id>
+			<properties>
+				<java-tools-jar>tools-windows.jar</java-tools-jar>
+			</properties>
+			<!-- 默认激活本环境 -->
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<!-- 开发环境 -->
+			<id>linux</id>
+			<properties>
+				<java-tools-jar>tools-linux.jar</java-tools-jar>
+			</properties>
+
+		</profile>
+	</profiles>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.github.jobop</groupId>
+			<artifactId>anylog-spi</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun</groupId>
+			<artifactId>tools</artifactId>
+			<version>1.6.45</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/${java-tools-jar}</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>19.0-rc1</version>
+		</dependency>
+		<!-- jetty -->
+		<dependency>
+			<groupId>org.eclipse.jetty.aggregate</groupId>
+			<artifactId>jetty-webapp</artifactId>
+			<version>${jetty.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.eclipse.jetty.orbit</groupId>
+					<artifactId>javax.servlet</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty.orbit</groupId>
+			<artifactId>org.apache.taglibs.standard.glassfish</artifactId>
+			<version>1.2.0.v201112081803</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-jsp</artifactId>
+			<version>${jetty.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.eclipse.jetty.orbit</groupId>
+					<artifactId>javax.servlet</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.jetty.orbit</groupId>
+			<artifactId>javax.servlet</artifactId>
+			<version>2.5.0.v201103041518</version>
+		</dependency>
+		<!-- jetty end -->
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity</artifactId>
+			<version>1.7</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity-tools</artifactId>
+			<version>2.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>servlet-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!-- jetty -->
+	</dependencies>
+	<build>
+	    	
+		<defaultGoal>install</defaultGoal>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.0</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+					<encoding>UTF8</encoding>
+					<verbal>true</verbal>
+				</configuration>
+			</plugin>
+				
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifestEntries>
+							<Main-Class>com.github.jobop.anylog.connector.AnyLogCtrl</Main-Class>
+							<Agent-Class>com.github.jobop.anylog.connector.AnyLogAgent</Agent-Class>
+							<Can-Redefine-Classes>true</Can-Redefine-Classes>
+							<Can-Retransform-Classes>true</Can-Retransform-Classes>
+							<!-- here to support the agentmain class startup,becuse agentmain class reference them -->
+							<!-- if just want to be use in another bootsharp loaded class,it can be load by appendToBootstrapClassLoaderSearch also -->
+							<Boot-Class-Path>anylog-common-1.0.0-SNAPSHOT.jar anylog-spi-1.0.0-SNAPSHOT.jar anylog-tools-1.0.0-SNAPSHOT.jar</Boot-Class-Path> 
+							<!-- anylog-tools-1.0.0-SNAPSHOT.jar--> 
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<configuration>
+					<tasks>
+						<delete dir="${dist.dir}"/>
+					</tasks>
+				</configuration>
+				<executions>
+					<execution>
+						<id>deleteOldDir</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.4</version>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>assembly</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<finalName>/</finalName>
+					<appendAssemblyId>false</appendAssemblyId>
+					<outputDirectory>${dist.dir}</outputDirectory>
+					<descriptors>
+						<descriptor>assembly.xml</descriptor>
+					</descriptors>
+					<encoding>UTF-8</encoding>
+					<updateOnly>true</updateOnly>
+				</configuration> 
+			</plugin> 
+		</plugins>
+	</build>
+</project>

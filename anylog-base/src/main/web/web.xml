@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
+
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+
+    http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+
+	<icon></icon>
+	<display-name>anylog</display-name>
+	<description>anylog</description>
+
+
+
+	<servlet>
+		<servlet-name>menuServlet</servlet-name>
+		<servlet-class>com.github.jobop.anylog.core.interactive.user.servlet.VMMenuServlet</servlet-class>
+		<init-param>
+			<param-name>org.apache.velocity.properties</param-name>
+			<param-value>/velocity.properties</param-value>
+		</init-param>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>menuServlet</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>vmServlet</servlet-name>
+		<servlet-class>com.github.jobop.anylog.core.interactive.user.servlet.VMServlet</servlet-class>
+		<init-param>
+			<param-name>org.apache.velocity.properties</param-name>
+			<param-value>/velocity.properties</param-value>
+		</init-param>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>vmServlet</servlet-name>
+		<url-pattern>vm.html</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>operateServlet</servlet-name>
+		<servlet-class>com.github.jobop.anylog.core.interactive.user.servlet.OperateDescriptorServlet</servlet-class>
+		<init-param>
+			<param-name>org.apache.velocity.properties</param-name>
+			<param-value>/velocity.properties</param-value>
+		</init-param>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>operateServlet</servlet-name>
+		<url-pattern>operate.html</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>dooperateServlet</servlet-name>
+		<servlet-class>com.github.jobop.anylog.core.interactive.user.servlet.DOOperateDescriptorServlet</servlet-class>
+		<init-param>
+			<param-name>org.apache.velocity.properties</param-name>
+			<param-value>/velocity.properties</param-value>
+		</init-param>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>dooperateServlet</servlet-name>
+		<url-pattern>dooperate.html</url-pattern>
+	</servlet-mapping>
+
+		<servlet>
+		<servlet-name>closeServlet</servlet-name>
+		<servlet-class>com.github.jobop.anylog.core.interactive.user.servlet.CloseServlet</servlet-class>
+		<init-param>
+			<param-name>org.apache.velocity.properties</param-name>
+			<param-value>/velocity.properties</param-value>
+		</init-param>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>closeServlet</servlet-name>
+		<url-pattern>close.html</url-pattern>
+	</servlet-mapping>
+	
+</web-app>

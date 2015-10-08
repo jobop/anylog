@@ -1,0 +1,2 @@
+com.github.jobop.anylog.spi.impl.LineLogTransformDescriptor
+com.github.jobop.anylog.spi.impl.TraceExceptionTransformDescriptor

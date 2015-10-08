@@ -1,0 +1,22 @@
+<a href="/menu.html">go to menu</a>     
+<br/>
+请设置操作参数:<br/>
+內置函数如下:<br/>
+$sysout -> System.out.println :用于将日志打到本身jvm的标准输出
+<br/>
+$trace -> com.github.jobop.anylog.tools.Trace.trace :用于将日志打印到本工具logs目录的{pid}.log文件
+<br/>
+$json->com.github.jobop.anylog.common.fastjson.JSON.toJSONString:用于对象转json
+<br/><br/><br/>
+pid=$!{pid}<br/>
+operate=$!{operateClassName}<br/>
+<form action="/dooperate.html" method="post">
+<input type="hidden" name="pid" value="$!{pid}" />
+<input type="hidden" name="operateClassName" value="$!{operateClassName}" />
+#foreach($emp in $!{fieldNameList})
+<tr>
+	 $!{emp}: <input type="text" name="$!{emp}" /> <br/>
+</tr>	 
+#end
+ <input type="submit" value="提交" />
+</form>
