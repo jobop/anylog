@@ -9,7 +9,31 @@
 
 	<name>anylog-common</name>
 	<url>http://maven.apache.org</url>
-
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<scm>
+		<connection>scm:git:git://github.com/jobop/anylog.git</connection>
+		<developerConnection>scm:git:git@github.com:jobop/anylog.git</developerConnection>
+		<url>https://github.com/jobop/anylog</url>
+		<tag>HEAD</tag>
+	</scm>
+	<developers>
+		<developer>
+			<id>jobop</id>
+			<name>jobop</name>
+			<email>zw19860913@163.com</email>
+		</developer>
+	</developers>	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
