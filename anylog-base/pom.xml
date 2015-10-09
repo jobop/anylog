@@ -4,7 +4,7 @@
 
 	<groupId>com.github.jobop</groupId>
 	<artifactId>anylog-base</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
 	<name>anylog-base</name>
@@ -41,7 +41,7 @@
 		<dependency>
 			<groupId>com.github.jobop</groupId>
 			<artifactId>anylog-spi</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sun</groupId>
@@ -145,7 +145,7 @@
 							<Can-Retransform-Classes>true</Can-Retransform-Classes>
 							<!-- here to support the agentmain class startup,becuse agentmain class reference them -->
 							<!-- if just want to be use in another bootsharp loaded class,it can be load by appendToBootstrapClassLoaderSearch also -->
-							<Boot-Class-Path>anylog-common-1.0.0-SNAPSHOT.jar anylog-spi-1.0.0-SNAPSHOT.jar anylog-tools-1.0.0-SNAPSHOT.jar</Boot-Class-Path> 
+							<Boot-Class-Path>anylog-common-1.0.0.jar anylog-spi-1.0.0.jar anylog-tools-1.0.0.jar</Boot-Class-Path> 
 							<!-- anylog-tools-1.0.0-SNAPSHOT.jar--> 
 						</manifestEntries>
 					</archive>
