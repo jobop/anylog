@@ -12,6 +12,7 @@ import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.view.VelocityViewServlet;
 
 import com.github.jobop.anylog.spi.TransformDescriptor;
+import com.github.jobop.anylog.spi.annotations.SpiDesc;
 
 public class VMServlet extends VelocityViewServlet {
 	private static ServiceLoader<TransformDescriptor> serviceLoader = ServiceLoader.load(TransformDescriptor.class);
@@ -30,18 +31,24 @@ public class VMServlet extends VelocityViewServlet {
 	@Override
 	protected Template handleRequest(HttpServletRequest request, HttpServletResponse response, Context ctx) {
 		String pid = request.getParameter("pid");
-		
-		
-		List<TransformDescriptor> descriptors=new ArrayList<TransformDescriptor>();
-		for(TransformDescriptor descriptor:serviceLoader){
-			descriptors.add(descriptor);
+
+		List<ClassWrapper> descriptors = new ArrayList<ClassWrapper>();
+		for (TransformDescriptor descriptor : serviceLoader) {
+			ClassWrapper wrapper = new ClassWrapper();
+			wrapper.setClassName(descriptor.getClass().getName());
+			SpiDesc descAnnotation = descriptor.getClass().getAnnotation(SpiDesc.class);
+			if (null != descAnnotation) {
+				wrapper.setClassDesc(descAnnotation.desc());
+			} else {
+				wrapper.setClassDesc("该功能无描述");
+			}
+			descriptors.add(wrapper);
 		}
 		ctx.put("descriptors", descriptors);
 		ctx.put("pid", pid);
-		//列出所有spi
-		
+		// 列出所有spi
+
 		// 调用父类的方法getTemplate()
 		return getTemplate("vm.vm");
 	}
-
 }

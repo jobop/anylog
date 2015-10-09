@@ -13,6 +13,7 @@ import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.view.VelocityViewServlet;
 
 import com.github.jobop.anylog.spi.TransformDescriptor;
+import com.github.jobop.anylog.spi.annotations.SpiDesc;
 
 public class OperateDescriptorServlet extends VelocityViewServlet {
 	/**
@@ -30,9 +31,9 @@ public class OperateDescriptorServlet extends VelocityViewServlet {
 	@Override
 	protected Template handleRequest(HttpServletRequest request, HttpServletResponse response, Context ctx) {
 		String pid = request.getParameter("pid");
-		
+
 		String operateClassName = request.getParameter("operate");
-		List<String> fieldNameList = new ArrayList<String>();
+		List<FieldWrapper> fieldList = new ArrayList<FieldWrapper>();
 		Class<?> operateClass = null;
 		try {
 			operateClass = Class.forName(operateClassName);
@@ -50,14 +51,35 @@ public class OperateDescriptorServlet extends VelocityViewServlet {
 					String first = fieldName.substring(0, 1).toLowerCase();
 					String rest = fieldName.substring(1, fieldName.length());
 					String newStr = new StringBuffer(first).append(rest).toString();
-					fieldNameList.add(newStr);
+					FieldWrapper wrapper = new FieldWrapper();
+					wrapper.setFieldName(newStr);
+					try {
+						SpiDesc descAnnotation = operateClass.getDeclaredField(newStr).getAnnotation(SpiDesc.class);
+						if (null != descAnnotation) {
+							wrapper.setFieldDesc(descAnnotation.desc());
+							wrapper.setCanNull(descAnnotation.canNull());
+						} else {
+							wrapper.setFieldDesc("该参数无描述");
+							wrapper.setCanNull(false);
+						}
+
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					fieldList.add(wrapper);
 				}
 			}
 		}
 
 		ctx.put("pid", pid);
 		ctx.put("operateClassName", operateClassName);
-		ctx.put("fieldNameList", fieldNameList);
+		SpiDesc classDesc = operateClass.getAnnotation(SpiDesc.class);
+		if (null != classDesc) {
+			ctx.put("classDesc", classDesc.desc());
+		}else{
+			ctx.put("classDesc", "该功能无描述");
+		}
+		ctx.put("fieldList", fieldList);
 		// 列出所有spi
 
 		// 调用父类的方法getTemplate()

@@ -9,13 +9,13 @@ $trace -> com.github.jobop.anylog.tools.Trace.trace :用于将日志打印到本
 $json->com.github.jobop.anylog.common.fastjson.JSON.toJSONString:用于对象转json
 <br/><br/><br/>
 pid=$!{pid}<br/>
-operate=$!{operateClassName}<br/>
+operate=$!{operateClassName}:$!{classDesc}<br/>
 <form action="/dooperate.html" method="post">
 <input type="hidden" name="pid" value="$!{pid}" />
 <input type="hidden" name="operateClassName" value="$!{operateClassName}" />
-#foreach($emp in $!{fieldNameList})
+#foreach($emp in $!{fieldList})
 <tr>
-	 $!{emp}: <input type="text" name="$!{emp}" /> <br/>
+	 $!{emp.fieldName}($!{emp.fieldDesc}): <input type="text" name="$!{emp.fieldName}" /> <br/>
 </tr>	 
 #end
  <input type="submit" value="提交" />

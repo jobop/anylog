@@ -1,18 +1,23 @@
 package com.github.jobop.anylog.spi.impl;
 
 import com.github.jobop.anylog.spi.TransformDescriptor;
+import com.github.jobop.anylog.spi.annotations.SpiDesc;
 
+@SpiDesc(desc = "此功能用于在某类的某方法的某行插入日志")
 public class LineLogTransformDescriptor implements TransformDescriptor {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
+	@SpiDesc(desc = "要插入日志的类")
 	private String needInjectClassName;
+	@SpiDesc(desc = "要插入日志的方法")
 	private String methodName;
+	@SpiDesc(desc = "要插入日志的所在方法的行数")
 	private String lineNum;
+	@SpiDesc(desc = "日志代码")
 	private String lineCode;
-	
-	
 
 	public String getLineCode() {
 		return lineCode;
