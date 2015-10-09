@@ -15,13 +15,17 @@ public class AnyLogAgent {
 
 	// 全局代理方法
 	public static void agentmain(String args, Instrumentation inst) throws UnmodifiableClassException, ClassNotFoundException, IOException {
-		Map<String, String> argusMap = ArgusUtils.args2map(args);
-		// here need to add systemclassloader ,or the javassist can not
-		// compiler,the javassist's bug?
-		// resin容器也需要加到这里才可以，tomcat不用
-		initSystemClassPath(inst, argusMap);
-		initTools(inst, argusMap);
-		startupSocketServer(inst, argusMap);
+		try {
+			Map<String, String> argusMap = ArgusUtils.args2map(args);
+			// here need to add systemclassloader ,or the javassist can not
+			// compiler,the javassist's bug?
+			// resin容器也需要加到这里才可以，tomcat不用
+			initSystemClassPath(inst, argusMap);
+			initTools(inst, argusMap);
+			startupSocketServer(inst, argusMap);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
 	}
 
 	private static void startupSocketServer(Instrumentation inst, Map<String, String> argusMap) {
