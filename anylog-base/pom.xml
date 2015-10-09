@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.github.jobop</groupId>
@@ -8,8 +7,32 @@
 	<packaging>jar</packaging>
 
 	<name>anylog-base</name>
-	<url>http://maven.apache.org</url>
-
+	<url>https://github.com/jobop/anylog</url>
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<scm>
+		<connection>scm:git:git://github.com/jobop/anylog.git</connection>
+		<developerConnection>scm:git:git@github.com:jobop/anylog.git</developerConnection>
+		<url>https://github.com/jobop/anylog</url>
+		<tag>HEAD</tag>
+	</scm>
+	<developers>
+		<developer>
+			<id>jobop</id>
+			<name>jobop</name>
+			<email>zw19860913@163.com</email>
+		</developer>
+	</developers>	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jetty.version>7.6.11.v20130520</jetty.version>
@@ -145,7 +168,7 @@
 							<Can-Retransform-Classes>true</Can-Retransform-Classes>
 							<!-- here to support the agentmain class startup,becuse agentmain class reference them -->
 							<!-- if just want to be use in another bootsharp loaded class,it can be load by appendToBootstrapClassLoaderSearch also -->
-							<Boot-Class-Path>anylog-common-1.0.0.jar anylog-spi-1.0.0.jar anylog-tools-1.0.0.jar</Boot-Class-Path> 
+							<Boot-Class-Path>anylog-common-${project.version}.jar anylog-spi-${project.version}.jar anylog-tools-${project.version}.jar</Boot-Class-Path> 
 							<!-- anylog-tools-1.0.0-SNAPSHOT.jar--> 
 						</manifestEntries>
 					</archive>
@@ -157,7 +180,7 @@
 				<artifactId>maven-antrun-plugin</artifactId>
 				<configuration>
 					<tasks>
-						<delete dir="${dist.dir}"/>
+						<delete dir="${dist.dir}" />
 					</tasks>
 				</configuration>
 				<executions>
