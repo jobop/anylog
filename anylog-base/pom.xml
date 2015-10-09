@@ -16,7 +16,7 @@
 		<dist.dir>../dist</dist.dir>
 	</properties>
 	<profiles>
-		<profile>
+		<profile>  
 			<!-- 本地环境 -->
 			<id>windows</id>
 			<properties>
