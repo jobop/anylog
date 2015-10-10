@@ -27,8 +27,21 @@ anylog为开发人员提供一个易于使用的平台，帮助开发人员在�
 ## 使用方法
 		1、获取运行程序：
 			1）可以到以下地址获取正式发行版：https://github.com/jobop/release/tree/master/anylog
-			2）你也可以clone下源码后，执行如下命令，构建运行程序，构建后程序将在dist目录下
-			    windows:  mvn install
-			    linux:  mvn install -Plinux
+			2）你也可以clone下源码后，执行如下命令，生成运行程序，生成的运行程序将在dist目录下
+			    生成windows版本:  mvn install
+			    生成linux版本:  mvn install -Plinux
 		2、直接执行startup.bat或者startup.sh即可运行起来
 		3、访问 http://127.0.0.1:52808 即可使用 
+		
+##功能扩展
+		如果你想要对anylog增加新的功能（例如添加某方法返回结果打印的功能）可以按照如下步骤操作：
+		1、使用如下命令，生成一个spi实现工程，并导入eclipse
+		mvn archetype:generate -DarchetypeGroupId=com.github.jobop -DarchetypeArtifactId=anylogspi-archetype -DarchetypeVersion=1.0.3
+		2、参照该工程中已有的两个例子（一个是在方法开始插入日志，一个是在方法结束插入日志），实现TransformDescriptor和TransformHandler接口
+		3、把两个接口实现类的全路径，分别加到以下两个文件中
+		    src/main/resources/META-INF/services/com.github.jobop.anylog.spi.TransformDescriptor
+		    src/main/resources/META-INF/services/com.github.jobop.anylog.spi.TransformHandler
+		4、执行mvn install打包，在dist下会生成你的扩展实现jar。
+		5、把扩展实现jar拷贝到anylog的providers目录下，重启即可生效。
+		
+		tips：在实现spi时，我们提供了SpiDesc注解，该注解作用在你实现的TransformDescriptor上，可以用来生成功能解释文字。
