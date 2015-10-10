@@ -34,7 +34,7 @@ anylog为开发人员提供一个易于使用的平台，帮助开发人员在�
 		3、访问 http://127.0.0.1:52808 即可使用 
 		
 ##功能扩展
-		anylog使用spi机制实现其扩展，如果你想要对anylog增加新的功能（例如添加返回值打印的功能）可以按照如下步骤操作：
+		anylog利用spi机制实现其扩展，如果你想要对anylog增加新的功能（例如添加返回值打印的功能）可以按照如下步骤操作：
 		1、使用如下命令，生成一个spi实现工程，并导入eclipse
 		mvn archetype:generate -DarchetypeGroupId=com.github.jobop -DarchetypeArtifactId=anylogspi-archetype -DarchetypeVersion=1.0.4
 		2、参照该工程中已有的两个例子（一个是在方法开始插入日志，一个是在方法结束插入日志），实现TransformDescriptor和TransformHandler接口
