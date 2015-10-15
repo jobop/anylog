@@ -76,15 +76,15 @@ public class VirtualMachineManager {
 		}
 	}
 
-	public boolean sendCommand(String pid, Command command) {
-		boolean success = false;
+	public int sendCommand(String pid, Command command) {
 		try {
 			VirtualMachineWrapper wrapper = vmCache.get(pid);
-			success = (wrapper.sendCommand(command) == 0);
+			return wrapper.sendCommand(command);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return success;
+		
+		return -1;
 	}
 
 	public List<VirtualMachineWrapper> listVMs() {

@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 import com.github.jobop.anylog.common.fastjson.JSON;
 
 public class MacroUtils {
-	private static Map<String, String> mapping = new HashMap<String, String>();
+	public static Map<String, String> mapping = new HashMap<String, String>();
 	static {
 		mapping.put("$sysout", "System.out.println");
 		mapping.put("$trace", "com.github.jobop.anylog.tools.Trace.trace");
