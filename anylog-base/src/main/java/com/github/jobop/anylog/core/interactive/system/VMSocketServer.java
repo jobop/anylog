@@ -12,6 +12,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.github.jobop.anylog.anntation.SecurityControl;
+import com.github.jobop.anylog.anntation.SecurityControlHelper;
 import com.github.jobop.anylog.common.utils.JavassistUtils;
 import com.github.jobop.anylog.core.instrumentation.AnyLogClassTransformer;
 import com.github.jobop.anylog.core.instrumentation.RestoreClassTransformer;
@@ -112,6 +114,9 @@ public class VMSocketServer {
 		int type = command.getCommandType();
 		if (type == 1) {
 			TransformDescriptor transformDescriptor = (TransformDescriptor) command.getCommandContext();
+			if(!doSecurityControl(transformDescriptor)){
+				return 1;//不通过安全控制
+			}
 			doTransform(transformDescriptor);
 		} else if (type == 2) {
 			System.out.println("###closing anylog.... ");
@@ -119,6 +124,10 @@ public class VMSocketServer {
 			shutdown();
 		}
 		return 0;
+	}
+
+	private boolean doSecurityControl(TransformDescriptor transformDescriptor) {
+		return SecurityControlHelper.secutrityControl(transformDescriptor);
 	}
 
 	private void doTransform(TransformDescriptor transformDescriptor) throws UnmodifiableClassException {

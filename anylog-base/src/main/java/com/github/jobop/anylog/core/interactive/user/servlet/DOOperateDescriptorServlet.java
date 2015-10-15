@@ -1,6 +1,7 @@
 package com.github.jobop.anylog.core.interactive.user.servlet;
 
 import java.lang.reflect.Method;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +14,7 @@ import com.github.jobop.anylog.core.interactive.protocol.TransformCommand;
 import com.github.jobop.anylog.core.vm.VirtualMachineManager;
 import com.github.jobop.anylog.spi.TransformDescriptor;
 import com.github.jobop.anylog.spi.impl.LineLogTransformDescriptor;
+import com.google.common.collect.Maps;
 
 public class DOOperateDescriptorServlet extends VelocityViewServlet {
 	/**
@@ -31,6 +33,7 @@ public class DOOperateDescriptorServlet extends VelocityViewServlet {
 	protected Template handleRequest(HttpServletRequest request, HttpServletResponse response, Context ctx) {
 
 		boolean result = false;
+		String resultMsg = "";
 		String pid = request.getParameter("pid");
 		VirtualMachineManager.getInstance().connected(pid, "");
 		String operateClassName = request.getParameter("operateClassName");
@@ -64,6 +67,7 @@ public class DOOperateDescriptorServlet extends VelocityViewServlet {
 					} catch (Exception e) {
 						e.printStackTrace();
 						ctx.put("result", result ? "success" : "fail");
+						ctx.put("resultMsg", e.getMessage());
 						return getTemplate("result.vm");
 					}
 				}
@@ -73,13 +77,55 @@ public class DOOperateDescriptorServlet extends VelocityViewServlet {
 			command.setTransformDescriptor((TransformDescriptor) obj);
 			System.out.println("###pid=" + pid);
 			System.out.println("");
-			result = VirtualMachineManager.getInstance().sendCommand(pid, command);
+			ResultEnum enumResult = transForm(VirtualMachineManager.getInstance().sendCommand(pid, command));
+			result = enumResult.getResult();
+			resultMsg = enumResult.getResultMsg();
+			System.out.println("resultMsg:" + resultMsg);
 		}
 		ctx.put("result", result ? "success" : "fail");
+		ctx.put("resultMsg", resultMsg);
 		return getTemplate("result.vm");
+	}
+
+	private ResultEnum transForm(int resultInt) {
+		System.out.println("resultInt: " + resultInt);
+		if(0 == resultInt)
+			return ResultEnum.RESULT_SUCCESS;
+		else if(1 == resultInt)
+			return ResultEnum.RESULT_SECURITY_FAIL;
+		else
+			return ResultEnum.RESULT_FAIL;
 	}
 
 	public static void main(String[] args) throws SecurityException, NoSuchFieldException {
 		System.out.println(LineLogTransformDescriptor.class.getDeclaredField("lineNum").getType());
+	}
+	
+	public enum ResultEnum{
+		RESULT_SUCCESS(true,"aop successs"),
+		RESULT_FAIL(false,"aop successs"),
+		RESULT_SECURITY_FAIL(false,"security can't pass");
+		
+		private boolean result;
+		private String resultMsg;
+		
+		private ResultEnum(boolean result,String resultMsg){
+			this.result = result;
+			this.resultMsg = resultMsg;
+		}
+		public boolean getResult() {
+			return result;
+		}
+
+		public void setResult(boolean result) {
+			this.result = result;
+		}
+
+		public String getResultMsg() {
+			return resultMsg;
+		}
+		public void setResultMsg(String resultMsg) {
+			this.resultMsg = resultMsg;
+		}
 	}
 }
