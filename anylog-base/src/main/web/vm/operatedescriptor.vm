@@ -13,10 +13,12 @@ operate=$!{operateClassName}<br/>
 <form action="/dooperate.html" method="post">
 <input type="hidden" name="pid" value="$!{pid}" />
 <input type="hidden" name="operateClassName" value="$!{operateClassName}" />
-#foreach($emp in $!{fieldNameList})
-<tr>
-	 $!{emp}: <input type="text" name="$!{emp}" /> <br/>
-</tr>	 
-#end
+ #foreach($field in $fieldMap.entrySet())
+ <tr>
+ 		<li>description: $!{field.value}</li>
+        <li/>$!{field.key}: <input type="text" name="$!{field.key}" /></li><br/>
+ </tr>
+ #end 
+	 
  <input type="submit" value="提交" />
 </form>

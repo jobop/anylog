@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.github.jobop.anylog.anntation.Description;
 import com.github.jobop.anylog.spi.TransformDescriptor;
 
 public class ElapsedTimeLogTransformDescriptor implements TransformDescriptor {
@@ -13,6 +14,7 @@ public class ElapsedTimeLogTransformDescriptor implements TransformDescriptor {
 	private static final long serialVersionUID = 1L;
 	private String needInjectClassName;
 	private String methodName;
+	@Description("example:1,2,3")
 	private String lineNumStrWillSplitByComma;
 
 	@Override
