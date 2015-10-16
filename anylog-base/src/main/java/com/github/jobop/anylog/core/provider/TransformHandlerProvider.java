@@ -14,6 +14,7 @@ public class TransformHandlerProvider {
 		try {
 			for (TransformHandler handler : serviceLoader) {
 				try {
+					System.out.println("class:" + handler.getClass());
 					if (handler.canHandler(injectDescriptor)) {
 						return handler;
 					}
