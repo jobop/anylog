@@ -31,7 +31,7 @@ public class SecurityControlHelper {
 			for (String string : set) {
 				if(object instanceof String ){
 					String insertCode = (String) object;
-					if(insertCode.contains(string)){
+					if(insertCode.startsWith(string)){
 						return true;
 					}
 				}
