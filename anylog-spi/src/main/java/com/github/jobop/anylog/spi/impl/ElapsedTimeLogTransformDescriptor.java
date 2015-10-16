@@ -13,7 +13,7 @@ public class ElapsedTimeLogTransformDescriptor implements TransformDescriptor {
 	private static final long serialVersionUID = 1L;
 	private String needInjectClassName;
 	private String methodName;
-	private String lineNum;
+	private String lineNumStrWillSplitByComma;
 
 	@Override
 	public String getNeedInjectClassName() {
@@ -28,12 +28,12 @@ public class ElapsedTimeLogTransformDescriptor implements TransformDescriptor {
 		this.methodName = methodName;
 	}
 
-	public String getLineNum() {
-		return lineNum;
+	public String getLineNumStrWillSplitByComma() {
+		return lineNumStrWillSplitByComma;
 	}
 
-	public void setLineNum(String lineNum) {
-		this.lineNum = lineNum;
+	public void setLineNumStrWillSplitByComma(String lineNumStrWillSplitByComma) {
+		this.lineNumStrWillSplitByComma = lineNumStrWillSplitByComma;
 	}
 
 	public void setNeedInjectClassName(String needInjectClassName) {
@@ -42,7 +42,7 @@ public class ElapsedTimeLogTransformDescriptor implements TransformDescriptor {
 
 	public List<Integer> splitLineNum() {
 		List<Integer> list = new ArrayList<Integer>();
-		List<String> listStr = Arrays.asList(lineNum.split(","));
+		List<String> listStr = Arrays.asList(lineNumStrWillSplitByComma.split(","));
 		for (String string : listStr) {
 			list.add(Integer.valueOf(string));
 		}

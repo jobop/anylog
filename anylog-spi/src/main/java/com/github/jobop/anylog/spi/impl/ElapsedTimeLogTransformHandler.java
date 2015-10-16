@@ -28,7 +28,7 @@ public class ElapsedTimeLogTransformHandler implements TransformHandler {
 		ElapsedTimeLogTransformDescriptor descriptor = (ElapsedTimeLogTransformDescriptor) injectDescriptor;
 		System.out.println("###" + descriptor.getNeedInjectClassName());
 		System.out.println("###" + descriptor.getMethodName());
-		System.out.println("###" + descriptor.getLineNum());
+		System.out.println("###" + descriptor.getLineNumStrWillSplitByComma());
 		try {
 			// 通过包名获取类文件
 			CtClass cc = ClassPool.getDefault().get(descriptor.getNeedInjectClassName());
