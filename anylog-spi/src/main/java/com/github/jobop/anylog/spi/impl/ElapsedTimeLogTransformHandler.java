@@ -35,8 +35,11 @@ public class ElapsedTimeLogTransformHandler implements TransformHandler {
 			cc.defrost();
 			// 获得指定方法名的方法
 			CtMethod m = cc.getDeclaredMethod(descriptor.getMethodName());
-			for (Integer lineNum : descriptor.splitLineNum()) {
-				m.insertAt(lineNum, MacroUtils.safeInsertTemplate("com.github.jobop.anylog.core.utils.TreadLocalHolder.setElapsedTime();"));
+			m.insertBefore(MacroUtils.safeInsertTemplate("com.github.jobop.anylog.core.utils.TreadLocalHolder.setElapsedTime();"));
+			if(descriptor.getLineNumStrWillSplitByComma() != null && !"".equals(descriptor.getLineNumStrWillSplitByComma())){
+				for (Integer lineNum : descriptor.splitLineNum()) {
+					m.insertAt(lineNum, MacroUtils.safeInsertTemplate("com.github.jobop.anylog.core.utils.TreadLocalHolder.setElapsedTime();"));
+				}
 			}
 			m.insertAfter(MacroUtils.safeInsertTemplate("com.github.jobop.anylog.core.utils.TreadLocalHolder.showElapsedTime();"));
 			return cc.toBytecode();

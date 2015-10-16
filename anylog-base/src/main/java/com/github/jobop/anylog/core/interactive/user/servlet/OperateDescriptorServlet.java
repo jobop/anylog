@@ -3,6 +3,7 @@ package com.github.jobop.anylog.core.interactive.user.servlet;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.ServiceLoader;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +13,9 @@ import org.apache.velocity.Template;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.view.VelocityViewServlet;
 
+import com.github.jobop.anylog.anntation.DescriptionHelper;
 import com.github.jobop.anylog.spi.TransformDescriptor;
+import com.google.common.collect.Maps;
 
 public class OperateDescriptorServlet extends VelocityViewServlet {
 	/**
@@ -32,7 +35,7 @@ public class OperateDescriptorServlet extends VelocityViewServlet {
 		String pid = request.getParameter("pid");
 		
 		String operateClassName = request.getParameter("operate");
-		List<String> fieldNameList = new ArrayList<String>();
+		Map <String,String> fieldMap = Maps.newHashMap();
 		Class<?> operateClass = null;
 		try {
 			operateClass = Class.forName(operateClassName);
@@ -49,15 +52,16 @@ public class OperateDescriptorServlet extends VelocityViewServlet {
 					String fieldName = methodName.substring("get".length());
 					String first = fieldName.substring(0, 1).toLowerCase();
 					String rest = fieldName.substring(1, fieldName.length());
-					String newStr = new StringBuffer(first).append(rest).toString();
-					fieldNameList.add(newStr);
+					
+					String fieldNameFormat = first+rest;
+					fieldMap.put(first+rest, DescriptionHelper.secutrityControl(operateClass, fieldNameFormat));
 				}
 			}
 		}
 
 		ctx.put("pid", pid);
 		ctx.put("operateClassName", operateClassName);
-		ctx.put("fieldNameList", fieldNameList);
+		ctx.put("fieldMap", fieldMap);
 		// 列出所有spi
 
 		// 调用父类的方法getTemplate()

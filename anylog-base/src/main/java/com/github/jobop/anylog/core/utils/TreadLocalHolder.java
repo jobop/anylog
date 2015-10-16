@@ -16,7 +16,7 @@ public class TreadLocalHolder {
 	private static ThreadLocal<SimpleDateFormat> simpleDateformat = new ThreadLocal<SimpleDateFormat>(){
 		@Override
 		protected SimpleDateFormat initialValue() {
-			return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 		}
 	};
 	public static void setElapsedTime(){
@@ -41,7 +41,8 @@ public class TreadLocalHolder {
 				sb.append("\n");
 			}
 		}
-		
+		sb.append("elapsedTime:" + (System.currentTimeMillis()-elapsedTimeList.get().get(0)));
+		sb.append("\n");
 		sb.append("end time:"+ simpleDateformat.get().format(new Date()));
 		System.out.println(sb.toString());
 		removeElapsedTime();

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.github.jobop.anylog.anntation.Description;
 import com.github.jobop.anylog.spi.TransformDescriptor;
 
 public class ElapsedTimeLogTransformDescriptor implements TransformDescriptor {
@@ -13,6 +14,7 @@ public class ElapsedTimeLogTransformDescriptor implements TransformDescriptor {
 	private static final long serialVersionUID = 1L;
 	private String needInjectClassName;
 	private String methodName;
+	@Description("可以为空,如果为空,则打印方法耗时,如果不为空,则选择相应的行数例如1,3")
 	private String lineNumStrWillSplitByComma;
 
 	@Override
