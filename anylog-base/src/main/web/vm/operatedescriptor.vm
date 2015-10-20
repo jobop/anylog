@@ -7,7 +7,12 @@ $sysout -> System.out.println :用于将日志打到本身jvm的标准输出
 $trace -> com.github.jobop.anylog.tools.Trace.trace :用于将日志打印到本工具logs目录的{pid}.log文件
 <br/>
 $json->com.github.jobop.anylog.common.fastjson.JSON.toJSONString:用于对象转json
-<br/><br/><br/>
+<br/>
+$base64->com.github.jobop.anylog.tools.encoders.Base64.toBase64String:用于二进制byte[]转Base64String
+<br/>
+$hex->com.github.jobop.anylog.tools.encoders.Hex.toHexString:用于二进制byte[]转HexString
+<br/>
+<br/><br/>
 pid=$!{pid}<br/>
 operate=$!{operateClassName}:$!{classDesc}<br/>
 <form action="/dooperate.html" method="post">
