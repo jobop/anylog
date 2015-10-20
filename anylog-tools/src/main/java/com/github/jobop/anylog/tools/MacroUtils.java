@@ -59,7 +59,7 @@ public class MacroUtils {
 		if (null == sourceCode || "".equals(sourceCode)) {
 			return "";
 		} else {
-			return "try{" + sourceCode + "}catch(Throwable e){}";
+			return "try{" + sourceCode + "}catch(Throwable e){e.printStackTrace();}";
 		}
 
 	}
