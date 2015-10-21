@@ -21,6 +21,10 @@
 			<param-name>org.apache.velocity.properties</param-name>
 			<param-value>/velocity.properties</param-value>
 		</init-param>
+		  <init-param> 
+		      <param-name>org.apache.velocity.toolbox</param-name> 
+		      <param-value>/toolbox.xml</param-value>    
+		  </init-param> 		
 		<load-on-startup>2</load-on-startup>
 	</servlet>
 	<servlet-mapping>
@@ -35,6 +39,10 @@
 			<param-name>org.apache.velocity.properties</param-name>
 			<param-value>/velocity.properties</param-value>
 		</init-param>
+		  <init-param> 
+		      <param-name>org.apache.velocity.toolbox</param-name> 
+		      <param-value>/toolbox.xml</param-value>    
+		  </init-param> 			
 		<load-on-startup>2</load-on-startup>
 	</servlet>
 	<servlet-mapping>
@@ -49,6 +57,10 @@
 			<param-name>org.apache.velocity.properties</param-name>
 			<param-value>/velocity.properties</param-value>
 		</init-param>
+		  <init-param> 
+		      <param-name>org.apache.velocity.toolbox</param-name> 
+		      <param-value>/toolbox.xml</param-value>    
+		  </init-param> 			
 		<load-on-startup>2</load-on-startup>
 	</servlet>
 	<servlet-mapping>
@@ -63,12 +75,34 @@
 			<param-name>org.apache.velocity.properties</param-name>
 			<param-value>/velocity.properties</param-value>
 		</init-param>
+		  <init-param> 
+		      <param-name>org.apache.velocity.toolbox</param-name> 
+		      <param-value>/toolbox.xml</param-value>    
+		  </init-param> 			
 		<load-on-startup>2</load-on-startup>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>dooperateServlet</servlet-name>
 		<url-pattern>dooperate.html</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>injectedDescriptorListServlet</servlet-name>
+		<servlet-class>com.github.jobop.anylog.core.interactive.user.servlet.InjectedDescriptorListServlet</servlet-class>
+		<init-param>
+			<param-name>org.apache.velocity.properties</param-name>
+			<param-value>/velocity.properties</param-value>
+		</init-param>
+		  <init-param> 
+		      <param-name>org.apache.velocity.toolbox</param-name> 
+		      <param-value>/toolbox.xml</param-value>    
+		  </init-param> 			
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>injectedDescriptorListServlet</servlet-name>
+		<url-pattern>injectedDescriptorList.html</url-pattern>
+	</servlet-mapping>
+
 
 		<servlet>
 		<servlet-name>closeServlet</servlet-name>
@@ -77,6 +111,10 @@
 			<param-name>org.apache.velocity.properties</param-name>
 			<param-value>/velocity.properties</param-value>
 		</init-param>
+		  <init-param> 
+		      <param-name>org.apache.velocity.toolbox</param-name> 
+		      <param-value>/toolbox.xml</param-value>    
+		  </init-param> 			
 		<load-on-startup>2</load-on-startup>
 	</servlet>
 	<servlet-mapping>

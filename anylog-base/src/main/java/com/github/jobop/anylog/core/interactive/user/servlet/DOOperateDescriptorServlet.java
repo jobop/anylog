@@ -71,11 +71,10 @@ public class DOOperateDescriptorServlet extends VelocityViewServlet {
 				}
 			}
 
-			TransformCommand command = new TransformCommand();
-			command.setTransformDescriptor((TransformDescriptor) obj);
+
 			System.out.println("###pid=" + pid);
 			System.out.println("");
-			result = VirtualMachineManager.getInstance().sendCommand(pid, command);
+			result = VirtualMachineManager.getInstance().sendTransformCommand(pid, (TransformDescriptor)obj);
 		}
 		ctx.put("result", result ? "success" : "fail");
 		return getTemplate("result.vm");

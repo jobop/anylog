@@ -29,6 +29,7 @@
 					<td>
 					<a href="/vm.html?pid=$!{emp.id}">修改</a> 
 						#if($!{emp.connected})
+							|<a href="/injectedDescriptorList.html?pid=$!{emp.id}">查看</a>
 							|<a href="/close.html?pid=$!{emp.id}"><font color=red>清除修改</font></a>   
 						#end
 					</td>

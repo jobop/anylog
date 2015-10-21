@@ -37,8 +37,9 @@ public class VMSocketClient {
 			byte[] sendBytes = serializer.serialize(command);
 			output.write(sendBytes);
 			result = input.readInt();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
+			result = 1;
 		} finally {
 			try {
 				output.close();

@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 
 import com.github.jobop.anylog.common.constans.Constans;
 import com.github.jobop.anylog.common.utils.ConfigUtils;
@@ -15,11 +18,16 @@ import com.github.jobop.anylog.core.interactive.protocol.CloseCommand;
 import com.github.jobop.anylog.core.interactive.protocol.Command;
 import com.github.jobop.anylog.core.interactive.system.VMSocketClient;
 import com.github.jobop.anylog.core.utils.ArgusUtils;
+import com.github.jobop.anylog.spi.TransformDescriptor;
 import com.sun.tools.attach.AttachNotSupportedException;
 import com.sun.tools.attach.VirtualMachine;
 import com.sun.tools.attach.VirtualMachineDescriptor;
 
 public class VirtualMachineWrapper {
+	private ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+	private WriteLock wl = lock.writeLock();
+	private ReadLock rl = lock.readLock();
+
 	private VirtualMachineDescriptor vmd;
 	private VirtualMachine vm;
 	private VMSocketClient client;
@@ -31,6 +39,7 @@ public class VirtualMachineWrapper {
 	private String toolJarPath = new File(ConfigUtils.getStringValue(Constans.TOOL_JAR_PATH)).getAbsolutePath();
 	private String commonJarPath = new File(ConfigUtils.getStringValue(Constans.COMMON_JAR_PATH)).getAbsolutePath();
 	private List<String> agentedJars = new ArrayList<String>();
+	private List<TransformDescriptor> descriptors = new ArrayList<TransformDescriptor>();
 
 	public VirtualMachineWrapper() {
 	}
@@ -133,6 +142,36 @@ public class VirtualMachineWrapper {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		}
+		clearDescriptor();
+	}
+
+	public void addDescriptor(TransformDescriptor descriptor) {
+		try {
+			wl.lock();
+			descriptors.add(descriptor);
+		} finally {
+			wl.unlock();
+		}
+	}
+
+	public void clearDescriptor() {
+		try {
+			wl.lock();
+			descriptors.clear();
+		} finally {
+			wl.unlock();
+		}
+	}
+
+	public List<TransformDescriptor> listTransformDescriptor() {
+		try {
+			rl.lock();
+			List<TransformDescriptor> newList = new ArrayList<TransformDescriptor>();
+			newList.addAll(descriptors);
+			return newList;
+		} finally {
+			rl.unlock();
 		}
 	}
 }
