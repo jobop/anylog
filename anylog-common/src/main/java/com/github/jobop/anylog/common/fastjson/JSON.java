@@ -381,6 +381,15 @@ public abstract class JSON implements JSONStreamAware, JSONAware {
     public static String toJSONString(Object object) {
         return toJSONString(object, new SerializerFeature[0]);
     }
+    
+    public static String objsToJSONString(Object[] objects) {
+    	StringBuffer sb = new StringBuffer();
+    	for(int i = 0; i< objects.length; i++) {
+  			sb.append("\r\n");
+    		sb.append("arg[" + i + "]=" + toJSONString(objects[i]));    		
+    	}    	
+    	return sb.toString();
+    }
 
     public static String toJSONString(Object object, SerializerFeature... features) {
         SerializeWriter out = new SerializeWriter();

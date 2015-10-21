@@ -5,14 +5,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.github.jobop.anylog.common.fastjson.JSON;
-
 public class MacroUtils {
 	private static Map<String, String> mapping = new HashMap<String, String>();
 	static {
 		mapping.put("$sysout", "System.out.println");
 		mapping.put("$trace", "com.github.jobop.anylog.tools.Trace.trace");
 		mapping.put("$json", "com.github.jobop.anylog.common.fastjson.JSON.toJSONString");
+		mapping.put("$base64", "com.github.jobop.anylog.tools.encoders.Base64.toBase64String");
+		mapping.put("$hex", "com.github.jobop.anylog.tools.encoders.Hex.toHexString");
 	}
 
 	public static String translate(String sourceCode) {
