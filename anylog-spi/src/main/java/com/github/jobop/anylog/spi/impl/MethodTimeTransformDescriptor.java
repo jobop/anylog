@@ -14,6 +14,10 @@ public class MethodTimeTransformDescriptor implements TransformDescriptor {
 	private String needInjectClassName;
 	@SpiDesc(desc = "要记录时间的方法")
 	private String methodName;
+	@SpiDesc(desc = "记录方法入参(y/n)")
+	private String logParamsValue = "y";
+	@SpiDesc(desc = "记录方法返回值(y/n)")
+	private String logReturnValue = "y";
 
 	@Override
 	public String getNeedInjectClassName() {
@@ -30,6 +34,22 @@ public class MethodTimeTransformDescriptor implements TransformDescriptor {
 
 	public void setNeedInjectClassName(String needInjectClassName) {
 		this.needInjectClassName = needInjectClassName;
+	}
+
+	public String getLogParamsValue() {
+		return logParamsValue;
+	}
+
+	public void setLogParamsValue(String logParamsValue) {
+		this.logParamsValue = logParamsValue;
+	}
+
+	public String getLogReturnValue() {
+		return logReturnValue;
+	}
+
+	public void setLogReturnValue(String logReturnValue) {
+		this.logReturnValue = logReturnValue;
 	}
 
 }

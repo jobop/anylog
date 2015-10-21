@@ -37,10 +37,21 @@ public class MethodTimeTransformHandler implements TransformHandler {
 
             String key = sb.toString();
 
+            if(descriptor.getLogParamsValue().equalsIgnoreCase("y")) {
+            	// 记录方法入参
+            	ctMethod.insertBefore(MacroUtils.safeInsertTemplate("com.github.jobop.anylog.tools.Trace.trace(" + key + " + \" params=\"  + com.github.jobop.anylog.common.fastjson.JSON.objsToJSONString($args));"));
+            }
+            // 记录起始时间
             ctMethod.insertBefore("com.github.jobop.anylog.tools.TimeRecorder.start(" + key + ");");
+                        
+            // 记录结束时间
+            ctMethod.insertAfter(MacroUtils.safeInsertTemplate("com.github.jobop.anylog.tools.Trace.trace(" + key + " + \" execute time=\"  + com.github.jobop.anylog.tools.TimeRecorder.end(" + key + ") + \"ms\");"));
 
-            ctMethod.insertAfter("com.github.jobop.anylog.tools.Trace.trace(" + key + " + \" - \"  + com.github.jobop.anylog.tools.TimeRecorder.end(" + key + ") + \"ms\");");
-
+            if(descriptor.getLogReturnValue().equalsIgnoreCase("y")) {
+            	// 记录方法返回值
+            	ctMethod.insertAfter(MacroUtils.safeInsertTemplate("com.github.jobop.anylog.tools.Trace.trace(" + key + " + \" return value=\"  + com.github.jobop.anylog.common.fastjson.JSON.toJSONString($_));"));
+            }
+            
             return ctClass.toBytecode();
 		} catch (NotFoundException e) {
 			e.printStackTrace();
