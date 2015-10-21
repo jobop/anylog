@@ -34,6 +34,8 @@ public class DOOperateDescriptorServlet extends VelocityViewServlet {
 		String pid = request.getParameter("pid");
 		VirtualMachineManager.getInstance().connected(pid, "");
 		String operateClassName = request.getParameter("operateClassName");
+		System.out.println("#####pid="+pid);
+		System.out.println("#####operateClassName="+operateClassName);
 		Class<?> operateClass = null;
 		try {
 			operateClass = Class.forName(operateClassName);
@@ -59,7 +61,7 @@ public class DOOperateDescriptorServlet extends VelocityViewServlet {
 					fieldName = new StringBuffer(first).append(rest).toString();
 					try {
 						System.out.println("fieldName=" + fieldName);
-
+						System.out.println( "#####"+request.getParameter(fieldName) );
 						method.invoke(obj, new Object[] { request.getParameter(fieldName) });
 					} catch (Exception e) {
 						e.printStackTrace();
