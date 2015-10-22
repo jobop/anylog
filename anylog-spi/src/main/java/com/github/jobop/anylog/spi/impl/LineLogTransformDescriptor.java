@@ -16,7 +16,7 @@ public class LineLogTransformDescriptor implements TransformDescriptor {
 	private String methodName;
 	@SpiDesc(desc = "要插入日志的所在方法的行数(类中的绝对行数)，代码将会在此行开头加入")
 	private String lineNum;
-	@SpiDesc(desc = "日志代码，例如$trace(\"1234567\");")
+	@SpiDesc(desc = "日志代码,例如$trace(\"12345678\");")
 	private String lineCode;
 
 	public String getLineCode() {
