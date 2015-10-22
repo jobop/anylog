@@ -90,6 +90,7 @@ public class VMSocketServer {
 			output.flush();
 		} catch (Exception e) {
 			e.printStackTrace();
+			result = 1;
 		} finally {
 			try {
 				output.close();

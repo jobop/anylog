@@ -7,10 +7,10 @@ import com.github.jobop.anylog.common.javassist.ClassPool;
 import com.github.jobop.anylog.common.javassist.CtClass;
 import com.github.jobop.anylog.common.javassist.CtConstructor;
 import com.github.jobop.anylog.common.javassist.NotFoundException;
-
 import com.github.jobop.anylog.spi.TransformDescriptor;
 import com.github.jobop.anylog.spi.TransformHandler;
 import com.github.jobop.anylog.tools.MacroUtils;
+import com.github.jobop.anylog.tools.Trace;
 
 public class TraceExceptionTransformHandler implements TransformHandler {
 

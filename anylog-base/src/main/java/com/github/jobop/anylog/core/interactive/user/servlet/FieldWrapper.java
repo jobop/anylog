@@ -4,6 +4,7 @@ public class FieldWrapper {
 	private String fieldName;
 	private String fieldDesc;
 	private boolean canNull;
+	private Object value;
 
 	public String getFieldName() {
 		return fieldName;
@@ -27,6 +28,14 @@ public class FieldWrapper {
 
 	public void setCanNull(boolean canNull) {
 		this.canNull = canNull;
+	}
+
+	public Object getValue() {
+		return value;
+	}
+
+	public void setValue(Object value) {
+		this.value = value;
 	}
 
 }

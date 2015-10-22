@@ -35,7 +35,7 @@ public class LineLogTransformHandler implements TransformHandler {
 			cc.defrost();
 			// 获得指定方法名的方法
 			CtMethod m = cc.getDeclaredMethod(descriptor.getMethodName());
-			m.insertAt(Integer.valueOf(descriptor.getLineNum()), MacroUtils.safeInsertTemplate(descriptor.getLineCode()));
+			m.insertAt(Integer.valueOf(descriptor.getLineNum()), MacroUtils.safeInsertTemplate(descriptor.getLineCode()+";"));
 			return cc.toBytecode();
 		} catch (NotFoundException e) {
 			e.printStackTrace();
