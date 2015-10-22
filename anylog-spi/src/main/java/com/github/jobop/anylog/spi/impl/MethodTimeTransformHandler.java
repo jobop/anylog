@@ -39,7 +39,7 @@ public class MethodTimeTransformHandler implements TransformHandler {
 
             if(descriptor.getLogParamsValue().equalsIgnoreCase("y")) {
             	// 记录方法入参
-            	ctMethod.insertBefore(MacroUtils.safeInsertTemplate("com.github.jobop.anylog.tools.Trace.trace(" + key + " + \" params=\"  + com.github.jobop.anylog.common.fastjson.JSON.objsToJSONString($args));"));
+            	ctMethod.insertBefore(MacroUtils.safeInsertTemplate("com.github.jobop.anylog.tools.Trace.trace(" + key + " + \" params=\"  + com.github.jobop.anylog.common.fastjson.JSON.toJSONString($args));"));
             }
             // 记录起始时间
             ctMethod.insertBefore("com.github.jobop.anylog.tools.TimeRecorder.start(" + key + ");");
