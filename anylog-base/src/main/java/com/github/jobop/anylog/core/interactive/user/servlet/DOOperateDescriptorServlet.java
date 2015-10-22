@@ -9,7 +9,7 @@ import org.apache.velocity.Template;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.view.VelocityViewServlet;
 
-import com.github.jobop.anylog.core.interactive.protocol.TransformCommand;
+import com.github.jobop.anylog.core.interactive.protocol.CommandRet;
 import com.github.jobop.anylog.core.vm.VirtualMachineManager;
 import com.github.jobop.anylog.spi.TransformDescriptor;
 import com.github.jobop.anylog.spi.impl.LineLogTransformDescriptor;
@@ -30,12 +30,13 @@ public class DOOperateDescriptorServlet extends VelocityViewServlet {
 	@Override
 	protected Template handleRequest(HttpServletRequest request, HttpServletResponse response, Context ctx) {
 
-		boolean result = false;
+		CommandRet ret = new CommandRet();
+		;
 		String pid = request.getParameter("pid");
 		VirtualMachineManager.getInstance().connected(pid, "");
 		String operateClassName = request.getParameter("operateClassName");
-		System.out.println("#####pid="+pid);
-		System.out.println("#####operateClassName="+operateClassName);
+		System.out.println("#####pid=" + pid);
+		System.out.println("#####operateClassName=" + operateClassName);
 		Class<?> operateClass = null;
 		try {
 			operateClass = Class.forName(operateClassName);
@@ -61,22 +62,21 @@ public class DOOperateDescriptorServlet extends VelocityViewServlet {
 					fieldName = new StringBuffer(first).append(rest).toString();
 					try {
 						System.out.println("fieldName=" + fieldName);
-						System.out.println( "#####"+request.getParameter(fieldName) );
+						System.out.println("#####" + request.getParameter(fieldName));
 						method.invoke(obj, new Object[] { request.getParameter(fieldName) });
 					} catch (Exception e) {
 						e.printStackTrace();
-						ctx.put("result", result ? "success" : "fail");
+						ctx.put("result", ret);
 						return getTemplate("result.vm");
 					}
 				}
 			}
 
-
 			System.out.println("###pid=" + pid);
 			System.out.println("");
-			result = VirtualMachineManager.getInstance().sendTransformCommand(pid, (TransformDescriptor)obj);
+			ret = VirtualMachineManager.getInstance().sendTransformCommand(pid, (TransformDescriptor) obj);
 		}
-		ctx.put("result", result ? "success" : "fail");
+		ctx.put("result", ret);
 		return getTemplate("result.vm");
 	}
 

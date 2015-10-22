@@ -12,16 +12,20 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.github.jobop.anylog.common.utils.ExceptionUtils;
 import com.github.jobop.anylog.common.utils.JavassistUtils;
 import com.github.jobop.anylog.core.instrumentation.AnyLogClassTransformer;
 import com.github.jobop.anylog.core.instrumentation.RestoreClassTransformer;
 import com.github.jobop.anylog.core.interactive.protocol.Command;
+import com.github.jobop.anylog.core.interactive.protocol.CommandRet;
+import com.github.jobop.anylog.core.interactive.serializer.Serializer;
 import com.github.jobop.anylog.core.interactive.serializer.SerializerFactory;
 import com.github.jobop.anylog.core.interactive.serializer.Unserializer;
 import com.github.jobop.anylog.spi.TransformDescriptor;
 
 public class VMSocketServer {
 	private Unserializer unserializer = SerializerFactory.getInstance().getDefaultSerializerPair().getUnserializer();
+	private Serializer serializer = SerializerFactory.getInstance().getDefaultSerializerPair().getSerializer();
 	private ServerSocket serverSocket = null;
 	private boolean started = false;
 	private Thread handleThread = null;
@@ -73,24 +77,26 @@ public class VMSocketServer {
 		}
 	}
 
-	public int receive(Socket socket) {
-		byte[] commandByte = new byte[1024];
-		int result = 0;
+	public void receive(Socket socket) {
+
+		CommandRet ret = new CommandRet();
 		DataInputStream input = null;
 		DataOutputStream output = null;
 		try {
-
 			input = new DataInputStream(socket.getInputStream());
 			output = new DataOutputStream(socket.getOutputStream());
-
+			byte[] commandByte = new byte[1024];
 			int lenth = input.read(commandByte);
 			Command command = (Command) unserializer.unserialize(Arrays.copyOfRange(commandByte, 0, lenth));
-			int ret = handlerCommand(command);
-			output.writeInt(ret);
+			handlerCommand(command);
+			// TODO：
+			String errorMsg = ExceptionUtils.dumpMsg();
+			ret.setRetCode(errorMsg.equals("") ? 0 : 1);
+			ret.setRetMsg(errorMsg);
+			output.write(serializer.serialize(ret));
 			output.flush();
 		} catch (Exception e) {
 			e.printStackTrace();
-			result = 1;
 		} finally {
 			try {
 				output.close();
@@ -106,7 +112,6 @@ public class VMSocketServer {
 			}
 		}
 
-		return result;
 	}
 
 	public int handlerCommand(Command command) throws UnmodifiableClassException {

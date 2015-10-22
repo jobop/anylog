@@ -7,6 +7,7 @@ import com.github.jobop.anylog.common.javassist.ClassPool;
 import com.github.jobop.anylog.common.javassist.CtClass;
 import com.github.jobop.anylog.common.javassist.CtMethod;
 import com.github.jobop.anylog.common.javassist.NotFoundException;
+import com.github.jobop.anylog.common.utils.ExceptionUtils;
 
 import com.github.jobop.anylog.spi.TransformDescriptor;
 import com.github.jobop.anylog.spi.TransformHandler;
@@ -40,6 +41,7 @@ public class LineLogTransformHandler implements TransformHandler {
 		} catch (NotFoundException e) {
 			e.printStackTrace();
 		} catch (CannotCompileException e) {
+			ExceptionUtils.addThrowable(e);
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -9,8 +9,11 @@
 	   <div class="panel-heading">
 	      <h3 class="panel-title">操作结果</h3>
 	   </div>
-	   <div class="panel-body">	
-	   $!{result}
+	   <div class="panel-body">
+	   错误代码	
+	   $!{result.retCode}
+	   错误信息
+	   $!{result.retMsg}
 		</div>
 		</div>
 	</body>

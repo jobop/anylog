@@ -8,6 +8,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import com.github.jobop.anylog.core.interactive.protocol.Command;
+import com.github.jobop.anylog.core.interactive.protocol.CommandRet;
 import com.github.jobop.anylog.core.interactive.protocol.TransformCommand;
 import com.github.jobop.anylog.spi.TransformDescriptor;
 import com.google.common.cache.CacheBuilder;
@@ -19,13 +20,12 @@ import com.sun.tools.attach.VirtualMachineDescriptor;
 public class VirtualMachineManager {
 	private static VirtualMachineManager virtualMachineManager = null;
 
-	private static LoadingCache<String, VirtualMachineWrapper> vmCache = CacheBuilder.newBuilder().expireAfterWrite(30, TimeUnit.SECONDS).maximumSize(20)
-			.build(new CacheLoader<String, VirtualMachineWrapper>() {
-				@Override
-				public VirtualMachineWrapper load(String key) throws Exception {
-					return new NullVirtualMachineWrapper();
-				}
-			});
+	private static LoadingCache<String, VirtualMachineWrapper> vmCache = CacheBuilder.newBuilder().expireAfterWrite(30, TimeUnit.SECONDS).maximumSize(20).build(new CacheLoader<String, VirtualMachineWrapper>() {
+		@Override
+		public VirtualMachineWrapper load(String key) throws Exception {
+			return new NullVirtualMachineWrapper();
+		}
+	});
 
 	private VirtualMachineManager() {
 		new RefreashVMThread().start();
@@ -79,16 +79,17 @@ public class VirtualMachineManager {
 		}
 	}
 
-	public boolean sendTransformCommand(String pid, TransformDescriptor transformDescriptor) {
-		boolean success = false;
+	public CommandRet sendTransformCommand(String pid, TransformDescriptor transformDescriptor) {
+		CommandRet ret = new CommandRet();
 		try {
 			TransformCommand command = new TransformCommand();
 			command.setTransformDescriptor((TransformDescriptor) transformDescriptor);
-			success = sendCommand(pid, command);
+			ret = sendCommand(pid, command);
 		} catch (Exception e) {
 			e.printStackTrace();
+			ret.setRetCode(1);
 		}
-		if (success) {
+		if (ret.getRetCode() == 0) {
 			try {
 				VirtualMachineWrapper wrapper = vmCache.get(pid);
 				if (null != wrapper) {
@@ -99,7 +100,7 @@ public class VirtualMachineManager {
 			}
 
 		}
-		return success;
+		return ret;
 	}
 
 	public List<TransformDescriptor> listTransformDescriptor(String pid) {
@@ -113,15 +114,16 @@ public class VirtualMachineManager {
 		return descs;
 	}
 
-	public boolean sendCommand(String pid, Command command) {
-		boolean success = false;
+	public CommandRet sendCommand(String pid, Command command) {
+		CommandRet ret = new CommandRet();
 		try {
 			VirtualMachineWrapper wrapper = vmCache.get(pid);
-			success = (wrapper.sendCommand(command) == 0);
+			ret = wrapper.sendCommand(command);
 		} catch (Exception e) {
 			e.printStackTrace();
+			ret.setRetCode(1);
 		}
-		return success;
+		return ret;
 	}
 
 	public List<VirtualMachineWrapper> listVMs() {
