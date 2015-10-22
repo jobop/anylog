@@ -11,8 +11,6 @@ public class MacroUtils {
 		mapping.put("$sysout", "System.out.println");
 		mapping.put("$trace", "com.github.jobop.anylog.tools.Trace.trace");
 		mapping.put("$json", "com.github.jobop.anylog.common.fastjson.JSON.toJSONString");
-		mapping.put("$base64", "com.github.jobop.anylog.tools.encoders.Base64.toBase64String");
-		mapping.put("$hex", "com.github.jobop.anylog.tools.encoders.Hex.toHexString");
 	}
 
 	public static String translate(String sourceCode) {
