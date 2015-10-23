@@ -40,13 +40,12 @@ public class VMSocketClient {
 			byte[] sendBytes = serializer.serialize(command);
 			output.write(sendBytes);
 
+			// 接收结果返回
 			byte[] retByte = new byte[1024];
 			int lenth = input.read(retByte);
 			ret = (CommandRet) unserializer.unserialize(Arrays.copyOfRange(retByte, 0, lenth));
-			System.out.println("#####ret="+ret.getRetMsg());
 		} catch (Exception e) {
 			e.printStackTrace();
-			ret.setRetCode(1);
 		} finally {
 			try {
 				output.close();

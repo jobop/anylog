@@ -78,26 +78,27 @@ public class VMSocketServer {
 	}
 
 	public void receive(Socket socket) {
-
 		CommandRet ret = new CommandRet();
 		DataInputStream input = null;
 		DataOutputStream output = null;
 		try {
+			ExceptionUtils.enable();
 			input = new DataInputStream(socket.getInputStream());
 			output = new DataOutputStream(socket.getOutputStream());
 			byte[] commandByte = new byte[1024];
 			int lenth = input.read(commandByte);
 			Command command = (Command) unserializer.unserialize(Arrays.copyOfRange(commandByte, 0, lenth));
 			handlerCommand(command);
-			// TODO：
-			String errorMsg = ExceptionUtils.dumpMsg();
-			ret.setRetCode(errorMsg.equals("") ? 0 : 1);
-			ret.setRetMsg(errorMsg);
+
+			ret.setRetCode(ExceptionUtils.hasExceptions() ? 1 : 0);
+			ret.setRetMsg(ExceptionUtils.dumpMsg());
+
 			output.write(serializer.serialize(ret));
 			output.flush();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
+			ExceptionUtils.disable();
 			try {
 				output.close();
 			} catch (Exception e) {
@@ -115,14 +116,19 @@ public class VMSocketServer {
 	}
 
 	public int handlerCommand(Command command) throws UnmodifiableClassException {
-		int type = command.getCommandType();
-		if (type == 1) {
-			TransformDescriptor transformDescriptor = (TransformDescriptor) command.getCommandContext();
-			doTransform(transformDescriptor);
-		} else if (type == 2) {
-			System.out.println("###closing anylog.... ");
-			restoreTransform();
-			shutdown();
+		try {
+			int type = command.getCommandType();
+			if (type == 1) {
+				TransformDescriptor transformDescriptor = (TransformDescriptor) command.getCommandContext();
+				doTransform(transformDescriptor);
+			} else if (type == 2) {
+				System.out.println("###closing anylog.... ");
+				restoreTransform();
+				shutdown();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			ExceptionUtils.addThrowable(e);
 		}
 		return 0;
 	}

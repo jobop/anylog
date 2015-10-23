@@ -10,7 +10,7 @@ public class CommandRet implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int retCode = 0;
+	private int retCode = 1;
 	private String retMsg;
 	private List<Throwable> throwables = new ArrayList<Throwable>();
 

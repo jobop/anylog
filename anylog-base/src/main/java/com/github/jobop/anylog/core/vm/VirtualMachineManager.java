@@ -87,7 +87,6 @@ public class VirtualMachineManager {
 			ret = sendCommand(pid, command);
 		} catch (Exception e) {
 			e.printStackTrace();
-			ret.setRetCode(1);
 		}
 		if (ret.getRetCode() == 0) {
 			try {
@@ -121,7 +120,6 @@ public class VirtualMachineManager {
 			ret = wrapper.sendCommand(command);
 		} catch (Exception e) {
 			e.printStackTrace();
-			ret.setRetCode(1);
 		}
 		return ret;
 	}
