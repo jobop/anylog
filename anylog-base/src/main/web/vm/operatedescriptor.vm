@@ -35,7 +35,7 @@
 				      <label for="$!{emp.fieldName}" class="col-sm-2 control-label">$!{emp.fieldName}</label>
 				      <div class="col-sm-10">
 				         <input type="text" class="form-control" id="$!{emp.fieldName}" name="$!{emp.fieldName}"
-				            placeholder="$!{emp.fieldDesc}"/>
+				            placeholder="$!esc.html($!{emp.fieldDesc})"/>
 				      </div>
 				   </div>
 					#end
