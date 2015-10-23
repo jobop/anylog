@@ -82,6 +82,7 @@ public class VMSocketServer {
 		DataInputStream input = null;
 		DataOutputStream output = null;
 		try {
+			//这里启动一个异常记录器，避免传参
 			ExceptionUtils.enable();
 			input = new DataInputStream(socket.getInputStream());
 			output = new DataOutputStream(socket.getOutputStream());

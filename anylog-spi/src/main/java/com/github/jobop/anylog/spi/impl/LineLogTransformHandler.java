@@ -26,10 +26,6 @@ public class LineLogTransformHandler implements TransformHandler {
 	@Override
 	public byte[] transform(TransformDescriptor injectDescriptor) {
 		LineLogTransformDescriptor descriptor = (LineLogTransformDescriptor) injectDescriptor;
-		System.out.println("###" + descriptor.getNeedInjectClassName());
-		System.out.println("###" + descriptor.getMethodName());
-		System.out.println("###" + descriptor.getLineNum());
-		System.out.println("###" + descriptor.getLineCode());
 		try {
 			// 通过包名获取类文件
 			CtClass cc = ClassPool.getDefault().get(descriptor.getNeedInjectClassName());
