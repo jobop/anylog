@@ -6,6 +6,7 @@ import java.security.ProtectionDomain;
 import java.util.Set;
 
 import com.github.jobop.anylog.common.utils.ExceptionUtils;
+import com.github.jobop.anylog.common.utils.JavassistUtils;
 import com.github.jobop.anylog.core.provider.TransformHandlerProvider;
 import com.github.jobop.anylog.spi.TransformDescriptor;
 import com.github.jobop.anylog.spi.TransformHandler;
@@ -30,6 +31,8 @@ public class AnyLogClassTransformer implements ClassFileTransformer {
 		}
 		byte[] resultByte = null;
 		try {
+			JavassistUtils.addJavassistClassPath(classBeingRedefined);
+
 			TransformHandler injectHandler = TransformHandlerProvider.getProvider(injectDescriptor);
 			System.out.println("###injectHandler=" + injectHandler.getClass().getName());
 			transformedClassSet.add(injectDescriptor.getNeedInjectClassName());
@@ -37,6 +40,8 @@ public class AnyLogClassTransformer implements ClassFileTransformer {
 		} catch (Throwable e) {
 			e.printStackTrace();
 			ExceptionUtils.addThrowable(e);
+		} finally {
+			JavassistUtils.cleanJavassistClassPath();
 		}
 		return resultByte;
 	}

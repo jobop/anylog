@@ -13,7 +13,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.github.jobop.anylog.common.utils.ExceptionUtils;
-import com.github.jobop.anylog.common.utils.JavassistUtils;
 import com.github.jobop.anylog.core.instrumentation.AnyLogClassTransformer;
 import com.github.jobop.anylog.core.instrumentation.RestoreClassTransformer;
 import com.github.jobop.anylog.core.interactive.protocol.Command;
@@ -21,6 +20,7 @@ import com.github.jobop.anylog.core.interactive.protocol.CommandRet;
 import com.github.jobop.anylog.core.interactive.serializer.Serializer;
 import com.github.jobop.anylog.core.interactive.serializer.SerializerFactory;
 import com.github.jobop.anylog.core.interactive.serializer.Unserializer;
+import com.github.jobop.anylog.core.utils.ClassUtils;
 import com.github.jobop.anylog.spi.TransformDescriptor;
 
 public class VMSocketServer {
@@ -82,7 +82,7 @@ public class VMSocketServer {
 		DataInputStream input = null;
 		DataOutputStream output = null;
 		try {
-			//这里启动一个异常记录器，避免传参
+			// 这里启动一个异常记录器，避免传参
 			ExceptionUtils.enable();
 			input = new DataInputStream(socket.getInputStream());
 			output = new DataOutputStream(socket.getOutputStream());
@@ -134,7 +134,15 @@ public class VMSocketServer {
 		return 0;
 	}
 
-	private void doTransform(TransformDescriptor transformDescriptor) throws UnmodifiableClassException {
+	private void doTransform(TransformDescriptor transformDescriptor) throws UnmodifiableClassException, ClassNotFoundException {
+		// FIXME:这里还可以帮助预先load class。避免迟加载时，Transformer已经被remove掉而不起作用，但是对于通配符无效
+		// if
+		// (!ClassUtils.checkClassExist(transformDescriptor.getNeedInjectClassName()))
+		// {
+		// throw new
+		// ClassNotFoundException(transformDescriptor.getNeedInjectClassName());
+		// }
+		
 		// 添加字节码转换器,让其既有万能AOP功能
 		ClassFileTransformer transformer = new AnyLogClassTransformer(transformDescriptor, transformedClassSet);
 		System.out.println("###addTransformer");
@@ -143,16 +151,15 @@ public class VMSocketServer {
 		Class<?>[] classes = inst.getAllLoadedClasses();
 		// 如果load过了，才retransformClasses，要不load两次，貌似会有问题
 		for (Class<?> clazz : classes) {
-
 			if (clazz.getName().equals(transformDescriptor.getNeedInjectClassName())) {
 				System.out.println("###retransforming classes...");
-				JavassistUtils.addJavassistClassPath(clazz);
 				inst.retransformClasses(new Class[] { clazz });
 			}
 		}
 		System.out.println("###removeTransformer");
+		// FIXME: 这里remove掉，对迟加载类会不起作用,但是如果不remove，会导致重复修改某个类的话，会多次起作用。
 		inst.removeTransformer(transformer);
-		JavassistUtils.cleanJavassistClassPath();
+
 	}
 
 	private void restoreTransform() throws UnmodifiableClassException {
@@ -167,13 +174,12 @@ public class VMSocketServer {
 
 			if (transformedClassSet.contains(clazz.getName())) {
 				System.out.println("###retransforming classes...");
-				JavassistUtils.addJavassistClassPath(clazz);
+
 				inst.retransformClasses(new Class[] { clazz });
 			}
 		}
 		System.out.println("###removeRestoreClassTransformer");
 		inst.removeTransformer(transformer);
-		JavassistUtils.cleanJavassistClassPath();
 		transformedClassSet.clear();
 	}
 }
