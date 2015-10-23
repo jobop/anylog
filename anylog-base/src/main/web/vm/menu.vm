@@ -33,7 +33,7 @@
 					<a href="/vm.html?pid=$!{emp.id}">添加注入</a> 
 						#if($!{emp.connected})
 							|<a href="/injectedDescriptorList.html?pid=$!{emp.id}">查看注入</a>
-							|<a href="/close.html?pid=$!{emp.id}"><font color=red>清除注入</font></a>   
+							|<a href="/close.html?pid=$!{emp.id}"><font color=green>清除修改</font></a>   
 						#end
 					</td>
 			</tr>			         
