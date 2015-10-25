@@ -3,7 +3,7 @@
 
 	<groupId>com.github.jobop</groupId>
 	<artifactId>anylog-common</artifactId>
-	<version>1.0.4-SNAPSHOT</version>
+	<version>1.0.4</version>
 	<packaging>jar</packaging>
 
 	<name>anylog-common</name>  
