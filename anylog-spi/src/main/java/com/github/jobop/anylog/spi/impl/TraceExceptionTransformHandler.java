@@ -7,10 +7,10 @@ import com.github.jobop.anylog.common.javassist.ClassPool;
 import com.github.jobop.anylog.common.javassist.CtClass;
 import com.github.jobop.anylog.common.javassist.CtConstructor;
 import com.github.jobop.anylog.common.javassist.NotFoundException;
+import com.github.jobop.anylog.common.utils.ExceptionUtils;
 import com.github.jobop.anylog.spi.TransformDescriptor;
 import com.github.jobop.anylog.spi.TransformHandler;
 import com.github.jobop.anylog.tools.MacroUtils;
-import com.github.jobop.anylog.tools.Trace;
 
 public class TraceExceptionTransformHandler implements TransformHandler {
 
@@ -44,25 +44,19 @@ public class TraceExceptionTransformHandler implements TransformHandler {
 			// 通过包名获取类文件
 			CtClass cc = ClassPool.getDefault().get(descriptor.getNeedInjectClassName());
 			// 获得无参构造方法
-
 			CtConstructor[] constructors = cc.getConstructors();
 			for (CtConstructor constructor : constructors) {
-				// constructor.insertAfter(MacroUtils.safeInsertTemplate("printStackTrace(new java.io.PrintStream(new java.io.File(\""
-				// + Trace.logsFile + "\")));"));
-				// 这样会找不到类
 				constructor.insertAfter(MacroUtils.safeInsertTemplate("printStackTrace(com.github.jobop.anylog.tools.Trace.out);"));
-//				constructor.insertAfter("printStackTrace(com.github.jobop.anylog.tools.Trace.out);");
-//				constructor.insertAfter(MacroUtils.safeInsertTemplate("com.github.jobop.anylog.tools.Trace.trace(\"111\");"));
-				// constructor.insertAfter("printStackTrace();");
-				// constructor.insertAfter("printStackTrace(new java.io.PrintStream(new java.io.File(\"D:\\111.log\")));");
-				// constructor.insertAfter("printStackTrace();");
 			}
 			return cc.toBytecode();
 		} catch (NotFoundException e) {
+			ExceptionUtils.addThrowable(e);
 			e.printStackTrace();
 		} catch (CannotCompileException e) {
+			ExceptionUtils.addThrowable(e);
 			e.printStackTrace();
 		} catch (IOException e) {
+			ExceptionUtils.addThrowable(e);
 			e.printStackTrace();
 			// 忽略异常处理
 		}

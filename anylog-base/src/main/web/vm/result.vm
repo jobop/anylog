@@ -1,3 +1,24 @@
-<a href="/menu.html">go to menu</a>     
-<br/>
-$!{result}
+<html>
+<head>
+   #include("header.vm")
+   <title>请对java进程选择操作</title>
+</head>
+	<body>
+	#include("bigtitle.vm")
+	<div class="panel panel-primary">
+	   <div class="panel-heading">
+	      <h3 class="panel-title">操作结果</h3>
+	   </div>
+	   <div class="panel-body">
+
+	#if($!{result.retCode}==0)
+		成功
+	#else
+		失败<br/>
+		错误信息：$!{result.retMsg}
+	#end	 
+		</div>
+		</div>
+	</body>
+</html>
+

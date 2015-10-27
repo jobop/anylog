@@ -16,6 +16,7 @@ import com.github.jobop.anylog.common.utils.PortUtils;
 import com.github.jobop.anylog.core.exception.NotConnectedException;
 import com.github.jobop.anylog.core.interactive.protocol.CloseCommand;
 import com.github.jobop.anylog.core.interactive.protocol.Command;
+import com.github.jobop.anylog.core.interactive.protocol.CommandRet;
 import com.github.jobop.anylog.core.interactive.system.VMSocketClient;
 import com.github.jobop.anylog.core.utils.ArgusUtils;
 import com.github.jobop.anylog.spi.TransformDescriptor;
@@ -82,7 +83,7 @@ public class VirtualMachineWrapper {
 		return argusMap;
 	}
 
-	public synchronized int sendCommand(Command command) {
+	public synchronized CommandRet sendCommand(Command command) {
 		if (!isConnected()) {
 			throw new NotConnectedException("please reconnect!");
 		}

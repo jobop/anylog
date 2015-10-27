@@ -29,7 +29,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>menuServlet</servlet-name>
-		<url-pattern>/</url-pattern>
+		<url-pattern>/menu.html</url-pattern>
 	</servlet-mapping>
 
 	<servlet>

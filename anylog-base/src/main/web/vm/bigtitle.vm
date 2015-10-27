@@ -1,0 +1,29 @@
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<div class="page-header">
+				<h1>
+					<big>Anylog</big> <small><small><a href="/menu.html">&nbsp;jvm列表页&nbsp;</a>|<a href="https://github.com/jobop/anylog">&nbsp;项目主页&nbsp;</a>|<a href="https://github.com/jobop/anylog">&nbsp;帮助&nbsp;</a>|&nbsp;本界面不支持IE&nbsp;</small> </small>
+				</h1>
+					
+				         
+					
+			</div>
+		</div>
+	</div>
+<!--
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<div class="jumbotron well">
+				<h4>
+					Hello, Anylog!
+				</h4>
+				<p>
+					助力快速定位线上问题--为了得到更好的体验，请使用chrome浏览器
+				</p>
+				<p>
+				<a href="/menu.html">返回vm列表</a> 
+				</p>
+			</div>
+		</div>
+	</div>
+-->
