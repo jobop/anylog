@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.jar.JarFile;
 
 import com.github.jobop.anylog.common.constans.Constans;
+import com.github.jobop.anylog.common.profiler.Profiler;
 import com.github.jobop.anylog.core.interactive.system.VMSocketServer;
 import com.github.jobop.anylog.core.utils.ArgusUtils;
 import com.github.jobop.anylog.tools.Trace;
@@ -37,6 +38,7 @@ public class AnyLogAgent {
 	private static void initTools(Instrumentation inst, Map<String, String> argusMap) {
 		String vmLogFilePath = argusMap.get(Constans.TRACE_LOG_PATH) + Constans.SEPARATOR + argusMap.get(Constans.THIS_PID) + ".log";
 		Trace.init(vmLogFilePath);
+		Profiler.init(Trace.out);
 	}
 
 	private static void initSystemClassPath(Instrumentation inst, Map<String, String> argusMap) {

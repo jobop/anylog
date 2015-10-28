@@ -1,3 +1,4 @@
 com.github.jobop.anylog.spi.impl.NoTransformHandler
 com.github.jobop.anylog.spi.impl.LineLogTransformHandler
 com.github.jobop.anylog.spi.impl.TraceExceptionTransformHandler
+com.github.jobop.anylog.spi.impl.ElapsedTimeTransformHandler

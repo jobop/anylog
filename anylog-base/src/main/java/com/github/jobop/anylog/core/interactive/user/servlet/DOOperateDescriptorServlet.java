@@ -62,8 +62,11 @@ public class DOOperateDescriptorServlet extends VelocityViewServlet {
 					fieldName = new StringBuffer(first).append(rest).toString();
 					try {
 						System.out.println("fieldName=" + fieldName);
-						System.out.println("#####" + request.getParameter(fieldName));
-						method.invoke(obj, new Object[] { request.getParameter(fieldName) });
+						String parameterValue = request.getParameter(fieldName);
+						System.out.println("#####" + parameterValue);
+						if (null != parameterValue && !"".equals(parameterValue)) {
+							method.invoke(obj, new Object[] { parameterValue });
+						}
 					} catch (Exception e) {
 						e.printStackTrace();
 						ctx.put("result", ret);
