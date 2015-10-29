@@ -3,16 +3,16 @@ package com.github.jobop.anylog.common.profiler.core;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExecNode {
+public class ContextNode {
 	private String methodName;
 	private long startTime;
 	private long endTime;
 	private long execTime;
-	private ExecNode parent;
-	private List<ExecNode> childList = new ArrayList<ExecNode>();
+	private ContextNode parent;
+	private List<ContextNode> childList = new ArrayList<ContextNode>();
 	private long elapseTimeMsToLog; 
 
-	public ExecNode(String methodName, long startTime, long elapseTimeMsToLog){
+	public ContextNode(String methodName, long startTime, long elapseTimeMsToLog){
 		this.methodName = methodName;
 		this.startTime = startTime;
 		this.elapseTimeMsToLog = elapseTimeMsToLog;
@@ -43,19 +43,19 @@ public class ExecNode {
 		this.execTime = endTime - startTime;
 	}
 
-	public List<ExecNode> getChildList() {
+	public List<ContextNode> getChildList() {
 		return childList;
 	}
 
-	public void setChildList(List<ExecNode> childList) {
+	public void setChildList(List<ContextNode> childList) {
 		this.childList = childList;
 	}
 
-	public ExecNode getParent() {
+	public ContextNode getParent() {
 		return parent;
 	}
 
-	public void setParent(ExecNode parent) {
+	public void setParent(ContextNode parent) {
 		this.parent = parent;
 	}
 
