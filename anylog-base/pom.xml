@@ -3,7 +3,7 @@
 
 	<groupId>com.github.jobop</groupId>
 	<artifactId>anylog-base</artifactId>
-	<version>1.0.7-SNAPSHOT</version>
+	<version>1.0.7</version>
 	<packaging>jar</packaging>
 
 	<name>anylog-base</name>
@@ -64,7 +64,7 @@
 		<dependency>
 			<groupId>com.github.jobop</groupId>
 			<artifactId>anylog-spi</artifactId>
-			<version>1.0.7-SNAPSHOT</version>
+			<version>1.0.7</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sun</groupId>

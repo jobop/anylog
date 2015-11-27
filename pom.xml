@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.jobop</groupId>
 	<artifactId>anylog</artifactId>
-	<version>1.0.7-SNAPSHOT</version>
+	<version>1.0.7</version>
 	<packaging>pom</packaging>
 	<name>anylog</name>
 	<url>https://github.com/jobop/anylog</url>
