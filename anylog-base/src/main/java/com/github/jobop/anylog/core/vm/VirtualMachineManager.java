@@ -20,7 +20,7 @@ import com.sun.tools.attach.VirtualMachineDescriptor;
 public class VirtualMachineManager {
 	private static VirtualMachineManager virtualMachineManager = null;
 
-	private static LoadingCache<String, VirtualMachineWrapper> vmCache = CacheBuilder.newBuilder().expireAfterWrite(30, TimeUnit.SECONDS).maximumSize(20).build(new CacheLoader<String, VirtualMachineWrapper>() {
+	private static LoadingCache<String, VirtualMachineWrapper> vmCache = CacheBuilder.newBuilder().expireAfterWrite(30, TimeUnit.SECONDS).maximumSize(200).build(new CacheLoader<String, VirtualMachineWrapper>() {
 		@Override
 		public VirtualMachineWrapper load(String key) throws Exception {
 			return new NullVirtualMachineWrapper();
@@ -46,7 +46,7 @@ public class VirtualMachineManager {
 				}
 			}
 		});
-	}
+	}  
 
 	public static VirtualMachineManager getInstance() {
 		if (null == virtualMachineManager) {
