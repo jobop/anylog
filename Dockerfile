@@ -3,6 +3,6 @@ COPY . app
 WORKDIR app
 RUN mvn install -Plinux
 EXPOSE 52808
-WORKDIR /app/dist
+WORKDIR dist
 RUN chmod 777 startupHold.sh
 CMD ["./startupHold.sh"]
