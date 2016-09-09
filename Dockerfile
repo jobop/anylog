@@ -4,5 +4,6 @@ WORKDIR app
 RUN mvn install -Plinux
 EXPOSE 52808
 WORKDIR dist
-RUN chmod 777 startupHold.sh
+RUN apk add --no-cache wget bash \
+    && chmod 777 startupHold.sh
 CMD ["pwd"]
