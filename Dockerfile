@@ -4,5 +4,5 @@ WORKDIR app
 RUN mvn install -Plinux
 EXPOSE 52808
 WORKDIR /app/dist
-RUN chmod 777 * -R
+RUN chmod -R 777 * 
 CMD ["./startupHold.sh"]
