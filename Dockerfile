@@ -1,4 +1,4 @@
-FROM maven3.3.9-jdk-7
+FROM maven:3.2-jdk-7-onbuild
 COPY . app
 WORKDIR app
 RUN mvn install -Plinux
